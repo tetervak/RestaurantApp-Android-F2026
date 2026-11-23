@@ -53,11 +53,11 @@ val networkModule = module {
 
 val repositoryModule = module {
     single<RestaurantRepository> { RestaurantRepositoryImpl(get(), get()) }
-    workerOf(::RefreshWorker)
 }
 
 val workModule = module {
     single { RestaurantWorkScheduler(androidContext()) }
+    workerOf(::RefreshWorker)
 }
 
 val domainModule = module {
