@@ -12,11 +12,13 @@ import ca.tetervak.restaurantapp.domain.ReloadUseCase
 import ca.tetervak.restaurantapp.domain.ToggleFavoriteUseCase
 import ca.tetervak.restaurantapp.ui.details.DetailsViewModel
 import ca.tetervak.restaurantapp.ui.list.ListViewModel
+import ca.tetervak.restaurantapp.work.RefreshWorker
 import ca.tetervak.restaurantapp.work.RestaurantWorkScheduler
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -51,6 +53,7 @@ val networkModule = module {
 
 val repositoryModule = module {
     single<RestaurantRepository> { RestaurantRepositoryImpl(get(), get()) }
+    workerOf(::RefreshWorker)
 }
 
 val workModule = module {

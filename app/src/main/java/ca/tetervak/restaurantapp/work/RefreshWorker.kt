@@ -5,15 +5,12 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ca.tetervak.restaurantapp.data.repository.RestaurantRepository
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 class RefreshWorker(
     appContext: Context,
-    workerParams: WorkerParameters
-) : CoroutineWorker(appContext, workerParams), KoinComponent {
-
-    private val repository: RestaurantRepository by inject()
+    workerParams: WorkerParameters,
+    private val repository: RestaurantRepository,
+) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
         return try {
