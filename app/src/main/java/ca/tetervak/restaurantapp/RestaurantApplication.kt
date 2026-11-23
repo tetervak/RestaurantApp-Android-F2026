@@ -1,18 +1,15 @@
 package ca.tetervak.restaurantapp
 
 import android.app.Application
-import ca.tetervak.restaurantapp.data.repository.RestaurantRepository
 import ca.tetervak.restaurantapp.di.appModules
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import ca.tetervak.restaurantapp.work.RestaurantWorkScheduler
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class RestaurantApplication : Application() {
 
-    private val repository: RestaurantRepository by inject()
+    private val workScheduler: RestaurantWorkScheduler by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -22,8 +19,10 @@ class RestaurantApplication : Application() {
             modules(appModules)
         }
 
-        MainScope().launch(Dispatchers.IO) {
-            repository.refreshRestaurants()
-        }
+        // Schedule periodic refresh task (every 15 minutes)
+        workScheduler.schedulePeriodicRefresh()
+
+        // Schedule one-time refresh task on application start
+        workScheduler.scheduleOneTimeRefresh()
     }
 }

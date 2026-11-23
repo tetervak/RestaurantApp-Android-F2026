@@ -1,9 +1,9 @@
 package ca.tetervak.restaurantapp.domain
 
-import ca.tetervak.restaurantapp.data.repository.RestaurantRepository
+import ca.tetervak.restaurantapp.work.RestaurantWorkScheduler
 
 class ReloadUseCase(
-    private val repository: RestaurantRepository
+    private val workScheduler: RestaurantWorkScheduler
 ) {
-    suspend operator fun invoke() = repository.refreshRestaurants()
+    suspend operator fun invoke() = workScheduler.scheduleOneTimeRefresh()
 }

@@ -51,6 +51,7 @@ class RestaurantRepositoryImpl(
         } catch (e: Exception) {
             if (e is CancellationException) throw e
             Log.e("RestaurantRepository", "Error refreshing restaurants: ${e.message}", e)
+            throw e
         }
     }
 

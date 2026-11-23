@@ -12,6 +12,7 @@ import ca.tetervak.restaurantapp.domain.ReloadUseCase
 import ca.tetervak.restaurantapp.domain.ToggleFavoriteUseCase
 import ca.tetervak.restaurantapp.ui.details.DetailsViewModel
 import ca.tetervak.restaurantapp.ui.list.ListViewModel
+import ca.tetervak.restaurantapp.work.RestaurantWorkScheduler
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -52,6 +53,10 @@ val repositoryModule = module {
     single<RestaurantRepository> { RestaurantRepositoryImpl(get(), get()) }
 }
 
+val workModule = module {
+    single { RestaurantWorkScheduler(androidContext()) }
+}
+
 val domainModule = module {
     factoryOf(::ClearUseCase)
     factoryOf(::GetRestaurantsUseCase)
@@ -68,6 +73,7 @@ val appModules = listOf(
     databaseModule,
     networkModule,
     repositoryModule,
+    workModule,
     domainModule,
     viewModelModule,
 )
