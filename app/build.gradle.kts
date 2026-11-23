@@ -9,7 +9,9 @@ plugins {
 android {
     namespace = "ca.tetervak.restaurantapp"
     compileSdk {
-        version = release(37)
+        version = release(37){
+            minorApiLevel = 2
+        }
     }
 
     defaultConfig {
